@@ -1,0 +1,45 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Management</title>
+</head>
+<body>
+    <h2>Student Management System</h2>
+
+    <h3>Add Student</h3>
+    <form action="/add" method="post">
+        Name: <input name="name" required><br><br>
+        Department: <input name="department" required><br><br>
+        <button type="submit">Add Student</button>
+    </form>
+
+    <h3>Update Student</h3>
+    <form action="/update" method="post">
+        ID: <input type="number" name="id" required><br><br>
+        Name: <input name="name" required><br><br>
+        Department: <input name="department" required><br><br>
+        <button type="submit">Update Student</button>
+    </form>
+
+    <h3>Delete Student</h3>
+    <form action="/delete" method="post">
+        ID: <input type="number" name="id" required><br><br>
+        <button type="submit">Delete Student</button>
+    </form>
+
+    <h3>View Students</h3>
+    <button onclick="loadStudents()">View Students</button>
+    <pre id="result"></pre>
+
+    <script>
+        async function loadStudents() {
+            const response = await fetch('/students');
+            const data = await response.json();
+            document.getElementById('result').textContent =
+                JSON.stringify(data, null, 2);
+        }
+    </script>
+</body>
+</html>
+

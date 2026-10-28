@@ -1,0 +1,99 @@
+import { Component } from '@angular/core';
+
+@Component({
+    standalone: true,
+    template: '<h2>Home Page</h2>'
+})
+export class HomeComponent {}
+
+@Component({
+    standalone: true,
+    template: `
+        <h2>Login Page</h2>
+        <button (click)="login()">Login</button>
+    `
+})
+export class LoginComponent {
+    login() {
+        localStorage.setItem('login', 'true');
+        alert('Login successful. Open Profile.');
+    }
+}
+
+@Component({
+    standalone: true,
+    template: '<h2>User Profile</h2>'
+})
+export class ProfileComponent {}
+
+
+
+import { Injectable } from '@angular/core';
+import {
+    CanActivate,
+    Router
+} from '@angular/router';
+
+@Injectable({
+    providedIn: 'root'
+})
+export class AuthGuard implements CanActivate {
+    constructor(private router: Router) {}
+
+    canActivate(): boolean {
+        if (localStorage.getItem('login') === 'true') {
+            return true;
+        }
+
+        this.router.navigate(['/login']);
+        return false;
+    }
+}
+
+
+
+
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { bootstrapApplication } from '@angular/platform-browser';
+import {
+    HttpClient,
+    provideHttpClient
+} from '@angular/common/http';
+
+@Component({
+    selector: 'app-root',
+    standalone: true,
+    imports: [CommonModule],
+    template: `
+        <h2>User Profile</h2>
+
+        <p *ngIf="user">Name: {{ user.name }}</p>
+        <p *ngIf="user">Email: {{ user.email }}</p>
+        <p *ngIf="user">Phone: {{ user.phone }}</p>
+        <p *ngIf="user">City: {{ user.address.city }}</p>
+
+        <p *ngIf="error">Unable to load profile.</p>
+    `
+})
+class AppComponent implements OnInit {
+    user: any;
+    error = false;
+
+    constructor(private http: HttpClient) {}
+
+    ngOnInit() {
+        this.http
+            .get<any>(
+                'https://jsonplaceholder.typicode.com/users/1'
+            )
+            .subscribe({
+                next: data => this.user = data,
+                error: () => this.error = true
+            });
+    }
+}
+
+bootstrapApplication(AppComponent, {
+    providers: [provideHttpClient()]
+});

@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/css" href="food.css"?>
+<!DOCTYPE food SYSTEM "food.dtd">
+
+<food>
+    <name>Vegetable Pasta</name>
+
+    <ingredients>
+        <item>Pasta</item>
+        <item>Tomato</item>
+        <item>Onion</item>
+        <item>Capsicum</item>
+    </ingredients>
+
+    <steps>
+        <step>Boil pasta</step>
+        <step>Cut vegetables</step>
+        <step>Fry vegetables</step>
+        <step>Add pasta and mix</step>
+    </steps>
+</food>
+css --
+food {
+    display: block;
+    background-color: lightyellow;
+    padding: 20px;
+    font-family: Arial;
+}
+
+name {
+    display: block;
+    color: blue;
+    font-size: 25px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+ingredients, steps {
+    display: block;
+    margin-top: 15px;
+    padding: 10px;
+    border: 1px solid green;
+}
+
+item, step {
+    display: list-item;
+    margin-left: 30px;
+    padding: 5px;
+}

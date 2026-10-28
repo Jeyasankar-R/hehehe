@@ -1,0 +1,6 @@
+<!ELEMENT food (name, ingredients, steps)>
+<!ELEMENT name (#PCDATA)>
+<!ELEMENT ingredients (item+)>
+<!ELEMENT item (#PCDATA)>
+<!ELEMENT steps (step+)>
+<!ELEMENT step (#PCDATA)>
