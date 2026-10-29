@@ -1,86 +1,52 @@
-import React from 'react';
-import {
-    BrowserRouter,
-    Routes,
-    Route,
-    Link
-} from 'react-router-dom';
+#app.jsx
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 
 function Home() {
-    return <h2>Home Page</h2>;
+  return <h1>Home Page</h1>;
 }
 
-function Article() {
-    return <h2>Article Details</h2>;
+function Blogs() {
+  return <h1>Blog Articles</h1>;
 }
 
-function CreatePost() {
-    return (
-        <div>
-            <h2>Create New Post</h2>
-            <input placeholder="Title" />
-            <br /><br />
-            <textarea placeholder="Content"></textarea>
-            <br /><br />
-            <button>Create Post</button>
-        </div>
-    );
+function Contact() {
+  return <h1>Contact Page</h1>;
 }
 
-export default function App() {
-    return (
-        <BrowserRouter>
-            <nav>
-                <Link to="/">Home</Link> |{' '}
-                <Link to="/article">Article</Link> |{' '}
-                <Link to="/create">Create Post</Link>
-            </nav>
+function App() {
+  return (
+    <BrowserRouter>
+      <h2>My Website</h2>
 
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/article" element={<Article />} />
-                <Route path="/create" element={<CreatePost />} />
-            </Routes>
-        </BrowserRouter>
-    );
+      <Link to="/">Home</Link> {" | "}
+      <Link to="/blogs">Blogs</Link> {" | "}
+      <Link to="/contact">Contact</Link>
+
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/blogs" element={<Blogs />} />
+        <Route path="/contact" element={<Contact />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
+export default App;
+
+
+#index.js
+
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <App />
+);
+
+#commands
+
+npx create-react-app myapp
+cd myapp
 npm install react-router-dom
-
-
-import React, { useEffect, useState } from 'react';
-
-function RelatedArticles({ tags }) {
-    const [articles, setArticles] = useState([]);
-
-    useEffect(() => {
-        fetch('https://jsonplaceholder.typicode.com/posts')
-            .then(response => response.json())
-            .then(data => {
-                const result = data.filter(article =>
-                    tags.some(tag =>
-                        article.title.toLowerCase()
-                            .includes(tag.toLowerCase())
-                    )
-                );
-
-                setArticles(result.slice(0, 5));
-            })
-            .catch(error => console.log(error));
-    }, [tags]);
-
-    return (
-        <div>
-            <h2>Related Articles</h2>
-
-            {articles.map(article => (
-                <div key={article.id}>
-                    <h3>{article.title}</h3>
-                    <p>{article.body}</p>
-                </div>
-            ))}
-        </div>
-    );
-}
-
-export default RelatedArticles;
+npm start

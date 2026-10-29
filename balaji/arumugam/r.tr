@@ -1,99 +1,105 @@
+# app.ts
+
 import { Component } from '@angular/core';
 
 @Component({
-    standalone: true,
-    template: '<h2>Home Page</h2>'
+  selector: 'app-root',
+  standalone: true,
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.css'
 })
-export class HomeComponent {}
 
-@Component({
-    standalone: true,
-    template: `
-        <h2>Login Page</h2>
-        <button (click)="login()">Login</button>
-    `
-})
-export class LoginComponent {
-    login() {
-        localStorage.setItem('login', 'true');
-        alert('Login successful. Open Profile.');
-    }
-}
+export class AppComponent {
 
-@Component({
-    standalone: true,
-    template: '<h2>User Profile</h2>'
-})
-export class ProfileComponent {}
+  title: string = 'Student Application';
 
+  name: string = 'Student';
 
+  age: number = 20;
 
-import { Injectable } from '@angular/core';
-import {
-    CanActivate,
-    Router
-} from '@angular/router';
+  students = [
+    { name: 'Arun', age: 20 },
+    { name: 'Priya', age: 21 },
+    { name: 'Kumar', age: 22 }
+  ];
 
-@Injectable({
-    providedIn: 'root'
-})
-export class AuthGuard implements CanActivate {
-    constructor(private router: Router) {}
+  changeName() {
+    this.title = 'Angular Application';
+  }
 
-    canActivate(): boolean {
-        if (localStorage.getItem('login') === 'true') {
-            return true;
-        }
-
-        this.router.navigate(['/login']);
-        return false;
-    }
 }
 
 
+#app.html
+
+<h1>{{ title }}</h1>
+
+<p>Name: {{ name }}</p>
+
+<p>Age: {{ age }}</p>
+
+<!-- Event binding -->
+<button (click)="changeName()">
+    Change Title
+</button>
+
+<hr>
+
+<!-- Conditional display -->
+<div *ngIf="age >= 18">
+    Eligible
+</div>
+
+<hr>
+
+<!-- Display list -->
+<h2>Student Details</h2>
+
+<ul>
+    <li *ngFor="let s of students">
+        {{ s.name }} - {{ s.age }}
+    </li>
+</ul>
+
+<hr>
+
+<!-- Two-way data binding -->
+<input [(ngModel)]="name">
+
+<p>Welcome {{ name }}</p>
 
 
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { bootstrapApplication } from '@angular/platform-browser';
-import {
-    HttpClient,
-    provideHttpClient
-} from '@angular/common/http';
+#app.css
 
-@Component({
-    selector: 'app-root',
-    standalone: true,
-    imports: [CommonModule],
-    template: `
-        <h2>User Profile</h2>
 
-        <p *ngIf="user">Name: {{ user.name }}</p>
-        <p *ngIf="user">Email: {{ user.email }}</p>
-        <p *ngIf="user">Phone: {{ user.phone }}</p>
-        <p *ngIf="user">City: {{ user.address.city }}</p>
-
-        <p *ngIf="error">Unable to load profile.</p>
-    `
-})
-class AppComponent implements OnInit {
-    user: any;
-    error = false;
-
-    constructor(private http: HttpClient) {}
-
-    ngOnInit() {
-        this.http
-            .get<any>(
-                'https://jsonplaceholder.typicode.com/users/1'
-            )
-            .subscribe({
-                next: data => this.user = data,
-                error: () => this.error = true
-            });
-    }
+h1 {
+    color: blue;
+    text-align: center;
 }
 
-bootstrapApplication(AppComponent, {
-    providers: [provideHttpClient()]
-});
+p {
+    color: darkgreen;
+    font-size: 18px;
+}
+
+button {
+    background-color: blue;
+    color: white;
+    padding: 10px;
+    border: none;
+}
+
+li {
+    margin: 10px;
+}
+
+
+#commands
+
+npm install -g @angular/cli
+
+ng new myapp
+
+cd myapp
+
+ng serve
